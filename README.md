@@ -1,4 +1,4 @@
-# HoloteqApi
+# WebService with Jersey Implementations.
 
 Jersey Implementations web service using DTO, DAO desgin patterens and MySql database. Spring JPA repo.
 
