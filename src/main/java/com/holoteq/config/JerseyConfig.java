@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.holoteq.service.TheoryTestAppointementService;
 
 @Component
-@ApplicationPath("/holoteq-app")
+@ApplicationPath("/holoteq")
 public class JerseyConfig extends ResourceConfig {
 	public JerseyConfig() {
 		register(TheoryTestAppointementService.class);

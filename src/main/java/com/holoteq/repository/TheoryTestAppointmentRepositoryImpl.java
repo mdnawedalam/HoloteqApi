@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
@@ -23,7 +24,6 @@ import org.springframework.util.StringUtils;
 import com.holoteq.entity.TheoryTestAppointmentEntity;
 import com.holoteq.exception.RecordNotFoundException;
 import com.holoteq.filter.TheoryTestAppointementFilter;
-
 
 /**
  * @author Nawed Alam Sep 29, 2019
@@ -49,11 +49,11 @@ public class TheoryTestAppointmentRepositoryImpl implements TheoryTestAppointmen
 	@Override
 	public TheoryTestAppointmentEntity findOne(TheoryTestAppointementFilter filter) {
 		LOGGER.info("--------------- Enter to FindByID ------------------");
-		return getDynamicTypedQuery(filter).getResultList().stream().filter(Objects::nonNull).findFirst()
-				.orElseThrow(/*
-								 * () -> new RecordNotFoundException("Applicant id '" + filter.getIds() +
-								 * "' does no exist")
-								 */ null);
+		 Optional<TheoryTestAppointmentEntity> findFirst = getDynamicTypedQuery(filter).getResultList()
+				 .stream().findFirst();
+		System.out.println(findFirst);
+		
+		return findFirst.get();
 	}
 
 	@Override
@@ -65,13 +65,13 @@ public class TheoryTestAppointmentRepositoryImpl implements TheoryTestAppointmen
 
 		final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
 		final CriteriaQuery<TheoryTestAppointmentEntity> criteriaQuery = criteriaBuilder
-				.createQuery(TheoryTestAppointmentEntity.class).distinct(true);
+				.createQuery(TheoryTestAppointmentEntity.class);
 		final Root<TheoryTestAppointmentEntity> root = criteriaQuery.from(TheoryTestAppointmentEntity.class);
 
 		final List<Predicate> predicates = new ArrayList<>();
 
 		if (!CollectionUtils.isEmpty(filter.getIds())) {
-			
+
 			LOGGER.info("-------------- Enter to DynamicTypedQuery ------------------");
 			predicates.add(root.get("qId").in(filter.getIds()));
 		}
@@ -101,5 +101,4 @@ public class TheoryTestAppointmentRepositoryImpl implements TheoryTestAppointmen
 //
 //		return this.entityManager.createQuery(criteriaQuery);
 //	}
-
 }

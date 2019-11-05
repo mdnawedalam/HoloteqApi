@@ -66,16 +66,17 @@ public abstract class AbstractBasicService<ENTITY extends BasicTableDtoConverter
 		return convertToDTO(entity);
 	}
 
+	public void deleteByIdDefault(Long id) {
+		ENTITY entity = getEntityById(id);
+
+		getRepository().delete((Long) entity.getId());
+	}
+
 //	public void deleteByIdDefault(Long id) {
 //		ENTITY entity = getEntityById(id);
 //
-//		getRepository().deleteById((Long) entity.getId());
+//		getRepository().deleteById(entity.getId());
 //	}
-//	    public void deleteByIdDefault(Long id) {
-//	        ENTITY entity = getEntityById(id);
-//
-//	        getRepository().deleteById(entity.getId());
-//	    }
 
 	public long createDefault(DTO dto) {
 		if (dto.getId() == null) {
